@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Albion Market Tracker</title>
+</head>
+<body>
+  <h1>Albion Market Tracker</h1>
+
+  <section>
+    <h2>Add Order</h2>
+    <form id="order-form">
+      <input id="item" placeholder="Item" required>
+      <input id="price" placeholder="Price" type="number" required>
+      <button type="submit">Add</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Orders</h2>
+    <ul id="orders"></ul>
+  </section>
+
+  <script>
+    const ordersList = document.getElementById('orders');
+    const form = document.getElementById('order-form');
+
+    async function fetchOrders() {
+      const res = await fetch('http://localhost:3000/api/orders');
+      const data = await res.json();
+      ordersList.innerHTML = data.map(o => `<li>#${o.id} - ${o.item} : ${o.price}</li>`).join('');
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const order = { item: item.value, price: Number(price.value) };
+      await fetch('http://localhost:3000/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(order)
+      });
+      form.reset();
+      fetchOrders();
+    });
+
+    fetchOrders();
+  </script>
+</body>
+</html>
