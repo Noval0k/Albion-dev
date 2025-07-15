@@ -26,17 +26,10 @@ async function fetchPrices(ids, city){
   return res.json();
 }
 
-async function fetchRecipe(itemId){
-  // 1. Download NDJSON file
-  const url = "https://raw.githubusercontent.com/broderickhyman/ao-bin-dumps/master/formatted/items.txt.json";
-  const text = await (await fetch(url)).text();
-
-  // 2. Parse line-by-line
-  const items = text
-    .split('\n')
-    .filter(l => l.trim())          // drop empty lines
-    .map(JSON.parse);               // each line is its own JSON object
-
+async function fetchRecipe(itemId) {
+  // 1. Use the tiny, always-up mirror (single JSON array, not NDJSON)
+  const url = "https://raw.githubusercontent.com/ao-data/ao-bin-dumps/master/formatted/items.json";
+  const items = await (await fetch(url)).json();   // now it IS one array
   return items.find(i => i["@uniquename"] === itemId);
 }
 
