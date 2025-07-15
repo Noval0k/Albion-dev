@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Albion Online Crafting Calculator</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="icon" href="https://render.albiononline.com/v1/item/T4_BAG.png"/>
+</head>
+<body>
+  <main>
+    <h1>Albion Crafting Calculator</h1>
+
+    <!-- Item search -->
+    <label>
+      What do you want to craft?
+      <input id="itemSearch" list="itemList" placeholder="e.g. "T4_2H_CLAYMORE"">
+      <datalist id="itemList"></datalist>
+    </label>
+
+    <!-- Basic settings -->
+    <label>
+      Craft city
+      <select id="city">
+        <option>Thetford</option><option>Fort Sterling</option>
+        <option>Lymhurst</option><option>Bridgewatch</option>
+        <option>Martlock</option><option>Caerleon</option>
+      </select>
+    </label>
+
+    <label>
+      Tier of the building (Resource Return Rate)
+      <input id="rrr" type="number" min="0" max="100" value="15"> %
+      <span class="hint" title="Base RRR + city bonus + building tier.">ⓘ</span>
+    </label>
+
+    <label>
+      <input id="focus" type="checkbox"/> Use focus (halves base resources)
+    </label>
+
+    <label>
+      Quantity to craft
+      <input id="qty" type="number" min="1" value="1">
+    </label>
+
+    <button id="calcBtn">Calculate</button>
+
+    <!-- Results -->
+    <section id="results" hidden>
+      <h2>Shopping List & Profit</h2>
+      <table>
+        <thead><tr><th>Material</th><th>Needed</th><th>Price ea.</th><th>Total</th></tr></thead>
+        <tbody id="matBody"></tbody>
+      </table>
+
+      <p>
+        <strong>Total material cost:</strong> <span id="matCost">-</span> silver
+      </p>
+      <p>
+        <strong>Market sell price (lowest sell order):</strong>
+        <span id="sellPrice">-</span> silver
+      </p>
+      <p>
+        <strong>Estimated profit:</strong>
+        <span id="profit">-</span> silver
+      </p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
