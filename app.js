@@ -26,11 +26,18 @@ async function fetchPrices(ids, city){
   return res.json();
 }
 
-async function fetchRecipe(itemId){
-  // Uses the AO 2D static JSON endpoint (no key, CORS ok)
-  const url = `https://raw.githubusercontent.com/broderickhyman/ao-bin-dumps/master/formatted/items.txt.json`;
-  const all = await fetch(url).then(r=>r.json());
-  return all.find(i=>i["@uniquename"]===itemId);
+async function fetchRecipe(itemId) {
+  // get the NDJSON dump
+  const url = "https://raw.githubusercontent.com/broderickhyman/ao-bin-dumps/master/formatted/items.txt.json";
+  const text = await fetch(url).then(r => r.text());
+
+  // Split into lines, ignore empty ones, parse each line
+  const items = text
+    .split("\n")
+    .filter(Boolean)
+    .map(JSON.parse);
+
+  return items.find(i => i["@uniquename"] === itemId);
 }
 
 function craftCount(matQty, rrr, useFocus){
